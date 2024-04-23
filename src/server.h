@@ -907,13 +907,13 @@ struct RedisModuleDigest {
 #define OBJ_STATIC_REFCOUNT (INT_MAX-1) /* Object allocated in the stack. */
 #define OBJ_FIRST_SPECIAL_REFCOUNT OBJ_STATIC_REFCOUNT
 struct redisObject {
-    unsigned type:4;
-    unsigned encoding:4;
+    unsigned type:4; // 记录对象的类型
+    unsigned encoding:4; // 记录了对象所使用的编码，即这个对象使用了什么数据结构作为底层实现
     unsigned lru:LRU_BITS; /* LRU time (relative to global lru_clock) or
                             * LFU data (least significant 8 bits frequency
                             * and most significant 16 bits access time). */
     int refcount;
-    void *ptr;
+    void *ptr; // 指向对象底层实现的数据结构，这些数据结构由encoding属性决定
 };
 
 /* The string name for an object's type as listed above
